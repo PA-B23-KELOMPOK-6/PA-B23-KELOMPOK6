@@ -1,20 +1,22 @@
 import mysql.connector
 import pwinput
-from invoice import Invoice
+from invoice import invoice
 from datetime import datetime
 from prettytable import PrettyTable
 
-#Connect database
+# Connect database
 db = mysql.connector.connect(
-    host = "Localhost",
-    user = "root",
-    password = "",
-    database = "db_energy_store"
+    host="sql6.freesqldatabase.com",
+    user="sql6702194",
+    password="t6ayvq7vPm",
+    database="sql6702194"
 )
 
 cursor = db.cursor()
 
-#Menampilakan tabel produk
+# Menampilakan tabel produk
+
+
 def display_produk():
     print(f"{'-'*40:^40}")
     print(f"{'DAFTAR PRODUK':^40}")
@@ -29,16 +31,22 @@ def display_produk():
             return
 
         table = PrettyTable()
-        table.field_names = ["ID Produk", "Nama Produk", "Merk", "Stok", "Harga Produk", "Biaya Pemasangan"]
+        table.field_names = ["ID Produk", "Nama Produk",
+                             "Merk", "Stok", "Harga Produk", "Biaya Pemasangan"]
 
         for row in results:
+            if row[3] == 0:
+                row = list(row)
+                row[3] = "Stok Habis"
             table.add_row(row)
 
         print(table)
     except mysql.connector.Error as err:
         print("Error:", err)
 
-#Cek username
+# Cek username
+
+
 def check_username(username):
     query_pembeli = "SELECT COUNT(*) FROM pembeli WHERE username = %s"
     cursor.execute(query_pembeli, (username,))
@@ -53,16 +61,149 @@ def check_username(username):
     else:
         return False
 
+
 class Pembeli:
-    def beli():
-        None
-        
-    def search():
+    def __init__(self, cursor, db):
+        self.cursor = cursor
+        self.db = db
+        self.invoice = []
+
+    def simpan_transaksi(self):
+        try:
+            for item in self.invoice:
+                query = "UPDATE produk SET stok = stok - %s WHERE id_produk = %s"
+                self.cursor.execute(query, (item["jumlah"], item["id_produk"]))
+                self.db.commit()
+                # Ambil ID karyawan dari informasi login
+                id_karyawan = user_info["id"]
+                # Ambil ID pembeli dari informasi login
+                id_pembeli = user_info["id"]
+                id_produk = item["id_produk"]
+
+                # Tambahkan ke histori pembelian
+                query = "INSERT INTO transaksi (id_transaksi, waktu_transaksi, id_karyawan, id_produk, id_pembeli) VALUES ('', %s, %s, %s, %s)"
+                values = (datetime.now(), id_karyawan, id_produk, id_pembeli)
+                self.cursor.execute(query, values)
+                self.db.commit()
+
+            print("Pembelian berhasil. Terima kasih atas pembelian Anda!")
+        except mysql.connector.Error as err:
+            print("Error saat memproses transaksi:", err)
+
+    def tampilkan_invoice(self):
+        if self.invoice:
+            print(f"{'-'*40:^40}")
+            print(f"{'INVOICE PEMBELIAN':^40}")
+            print(f"{'-'*40:^40}")
+            table = PrettyTable()
+            table.field_names = ["ID Produk", "Nama Produk", "Merk",
+                                 "Jumlah", "Harga Satuan", "Biaya Pemasangan", "Total Harga"]
+
+            for item in self.invoice:
+                total_harga = item["jumlah"] * \
+                    (item["harga_satuan"] + item["biaya_pemasangan"])
+                table.add_row([
+                    item["id_produk"],
+                    item["nama_produk"],
+                    item["merk"],
+                    item["jumlah"],
+                    item["harga_satuan"],
+                    item["biaya_pemasangan"],
+                    total_harga
+                ])
+
+            print(table)
+        else:
+            print("Tidak ada item dalam invoice saat ini.")
+
+    def beli(self):
+        self.invoice = []
+        total_pembelian = 0
+        while True:
+            try:
+                product_id = int(
+                    input("Masukkan ID Produk yang ingin dibeli (atau 0 untuk keluar): "))
+                if product_id == 0:
+                    break
+
+                query = "SELECT * FROM produk WHERE id_produk = %s"
+                self.cursor.execute(query, (product_id,))
+                product = self.cursor.fetchone()
+
+                if not product:
+                    print("Produk dengan ID tersebut tidak ditemukan.")
+                    continue
+
+                jumlah = int(
+                    input(f"Masukkan jumlah {product[1]} (merk {product[2]}) yang ingin dibeli: "))
+
+                if jumlah <= 0:
+                    print("Jumlah produk tidak boleh 0 atau negatif.")
+                    continue
+
+                if jumlah > product[3]:
+                    print("Stok tidak mencukupi.")
+                    continue
+
+                for item in self.invoice:
+                    if item["id_produk"] == product_id:
+                        item["jumlah"] += jumlah
+                        break
+                else:
+                    self.invoice.append({
+                        "id_produk": product[0],
+                        "nama_produk": product[1],
+                        "merk": product[2],
+                        "jumlah": jumlah,
+                        "harga_satuan": product[4],
+                        "biaya_pemasangan": product[5],
+                    })
+
+                total_pembelian += jumlah * (product[4] + product[5])
+            except ValueError:
+                print("Input tidak valid. Masukkan angka yang benar.")
+
+        if self.invoice:
+            self.tampilkan_invoice()
+            while True:
+                try:
+                    print("Total Pembayaran: ", total_pembelian)
+                    uang_bayar = float(
+                        input("Masukkan jumlah uang yang dibayarkan: "))
+                    if uang_bayar < total_pembelian:
+                        print(
+                            "Jumlah uang yang dibayarkan kurang dari total pembelian.")
+                    else:
+                        break
+                except ValueError:
+                    print("Input tidak valid. Masukkan angka yang benar.")
+
+            kembalian = uang_bayar - total_pembelian
+            print(f"Uang yang dibayarkan: {uang_bayar}")
+            print(f"Kembalian: {kembalian}")
+
+            konfirmasi = input(
+                "Apakah Anda ingin membayar pembelian ini? (y/n): ").lower()
+            if konfirmasi == 'y':
+                self.simpan_transaksi()
+                print("Total Pembayaran: ", total_pembelian)
+            elif konfirmasi == 'n':
+                self.beli()
+            else:
+                print(
+                    "Pilihan tidak valid. Silakan pilih 'y' untuk membayar atau 'n' untuk membatalkan.")
+                self.beli()
+        else:
+            print("Pembelian dibatalkan.")
+
+    @staticmethod
+    def search(cursor):
         print(f"{'-'*40:^40}")
         print(f"{'SEARCH':^40}")
         print(f"{'-'*40:^40}")
         while True:
-            search = input("Masukkan nama produk atau merk yang ingin dicari: ")
+            search = input(
+                "Masukkan nama produk atau merk yang ingin dicari: ")
             try:
                 query = "SELECT * FROM produk WHERE nama_produk OR merk LIKE %s"
                 cursor.execute(query, (f"%{search}%",))
@@ -70,7 +211,8 @@ class Pembeli:
                 if search.strip():
                     if cursor.rowcount != 0:
                         table = PrettyTable()
-                        table.field_names = ["ID Produk", "Nama Produk", "Merk", "Stok", "Harga Produk", "Biaya Pemasangan"]
+                        table.field_names = [
+                            "ID Produk", "Nama Produk", "Merk", "Stok", "Harga Produk", "Biaya Pemasangan"]
 
                         for row in results:
                             table.add_row(row)
@@ -83,8 +225,9 @@ class Pembeli:
                     print("Nama produk tidak boleh kosong.")
             except mysql.connector.Error as err:
                 print("Error:", err)
-    
-    def sort_murah():
+
+    @staticmethod
+    def sort_murah(cursor):
         print(f"{'-'*40:^40}")
         print(f"{'DAFTAR PRODUK (MURAH - MAHAL)':^40}")
         print(f"{'-'*40:^40}")
@@ -98,7 +241,8 @@ class Pembeli:
                 return
 
             table = PrettyTable()
-            table.field_names = ["ID Produk", "Nama Produk", "Merk", "Stok", "Harga Produk", "Biaya Pemasangan"]
+            table.field_names = ["ID Produk", "Nama Produk",
+                                 "Merk", "Stok", "Harga Produk", "Biaya Pemasangan"]
 
             for row in results:
                 table.add_row(row)
@@ -106,8 +250,9 @@ class Pembeli:
             print(table)
         except mysql.connector.Error as err:
             print("Error:", err)
-    
-    def sort_mahal():
+
+    @staticmethod
+    def sort_mahal(cursor):
         print(f"{'-'*40:^40}")
         print(f"{'DAFTAR PRODUK (MAHAL - MURAH)':^40}")
         print(f"{'-'*40:^40}")
@@ -121,7 +266,8 @@ class Pembeli:
                 return
 
             table = PrettyTable()
-            table.field_names = ["ID Produk", "Nama Produk", "Merk", "Stok", "Harga Produk", "Biaya Pemasangan"]
+            table.field_names = ["ID Produk", "Nama Produk",
+                                 "Merk", "Stok", "Harga Produk", "Biaya Pemasangan"]
 
             for row in results:
                 table.add_row(row)
@@ -130,11 +276,17 @@ class Pembeli:
         except mysql.connector.Error as err:
             print("Error:", err)
 
+# pembeli = Pembeli()
+
+
 class NodeProduk:
     def __init__(self, produk):
         self.produk = produk
         self.next = None
-#Class karyawan
+
+# Class karyawan
+
+
 class LinkedListProduk:
     def __init__(self):
         self.head = None
@@ -149,79 +301,105 @@ class LinkedListProduk:
                 current = current.next
             current.next = node_baru
 
-    def semua(self):
-        produk_list = []
-        current = self.head
-        while current is not None:
-            produk_list.append(current.produk)
-            current = current.next
-        return produk_list
+    def tambah_produk():
+        while True:
+            nama = input("Masukkan nama produk: ")
+            merk = input("Masukkan merk produk: ")
+            stok = int(input("Masukkan stok produk: "))
+            harga = float(input("Masukkan harga produk: "))
+            biaya_pemasangan = float(input("Masukkan biaya pemasangan: "))
+            if nama.strip() and merk.strip():
+                query = "INSERT INTO produk (nama_produk, merk, stok, harga_produk, biaya_pemasangan) VALUES (%s, %s, %s, %s, %s)"
+                cursor.execute(
+                    query, (nama, merk, stok, harga, biaya_pemasangan))
+                db.commit()
+                break
+            else:
+                print("Nama dan Merk Tidak Boleh Kosong!")
 
-    def cari_by_id(self, id_produk):
-        current = self.head
-        while current is not None:
-            if current.produk["id_produk"] == id_produk:
-                return current.produk
-            current = current.next
-        return None
+        id_baru = cursor.lastrowid
+        daftar_produk.tambah({
+            "id_produk": id_baru,
+            "nama_produk": nama,
+            "merk": merk,
+            "stok": stok,
+            "harga_produk": harga,
+            "biaya_pemasangan": biaya_pemasangan
+        })
+        print("Produk berhasil ditambahkan.")
 
-    def hapus_by_id(self, id_produk):
-        if self.head is None:
-            return
+    def delete_related_transaksi(id_produk):
+        try:
+            query = "DELETE FROM transaksi WHERE id_produk = %s"
+            cursor.execute(query, (id_produk,))
+            db.commit()
+        except mysql.connector.Error as err:
+            db.rollback()
 
-        if self.head.produk["id_produk"] == id_produk:
-            self.head = self.head.next
-            return
+    def hapus_produk(id_produk):
+        try:
+            query = "SELECT * FROM produk WHERE id_produk = %s"
+            cursor.execute(query, (id_produk,))
+            produk = cursor.fetchone()
 
-        previous = None
-        current = self.head
-        while current is not None and current.produk["id_produk"] != id_produk:
-            previous = current
-            current = current.next
+            if produk:
+                LinkedListProduk.delete_related_transaksi(id_produk)
+                query = "DELETE FROM produk WHERE id_produk = %s"
+                cursor.execute(query, (id_produk,))
+                db.commit()
+                print("Produk berhasil dihapus.")
+            else:
+                print(f"Produk dengan ID {id_produk} tidak ditemukan.")
 
-        if current is not None:
-            previous.next = current.next
+        except ValueError:
+            print("ID produk harus berupa bilangan bulat.")
 
-    def update(self, id_produk, nama=None, merk=None, stok=None, harga=None, biaya_pemasangan=None):
-        current = self.head
-        while current is not None:
-            if current.produk["id_produk"] == id_produk:
-                if nama is not None:
-                    current.produk["nama_produk"] = nama
-                if merk is not None:
-                    current.produk["merk"] = merk
-                if stok is not None:
-                    current.produk["stok"] = stok
-                if harga is not None:
-                    current.produk["harga_produk"] = harga
-                if biaya_pemasangan is not None:
-                    current.produk["biaya_pemasangan"] = biaya_pemasangan
-                print("Produk berhasil diperbarui.")
-                return current.produk
-            current = current.next
-        print("Produk dengan ID", id_produk, "tidak ditemukan.")
-        return None
+        except mysql.connector.Error as err:
+            db.rollback()
+            print("Error saat menghapus produk:", err)
+
+    def update(id_produk):
+        nama = input("Masukkan nama produk baru (opsional): ")
+        merk = input("Masukkan merk baru (opsional): ")
+        stok = input("Masukkan jumlah stok baru (opsional): ")
+        harga = input("Masukkan harga baru (opsional): ")
+        biaya_pemasangan = input("Biaya pemasangan baru (opsional): ")
+
+        if nama.strip() == "":
+            nama = None
+        if merk.strip() == "":
+            merk = None
+        if stok.strip() == "":
+            stok = None
+        else:
+            stok = int(stok)
+        if harga.strip() == "":
+            harga = None
+        else:
+            harga = float(harga)
+        if biaya_pemasangan.strip() == "":
+            biaya_pemasangan = None
+        else:
+            biaya_pemasangan = float(biaya_pemasangan)
+
+        # Update hanya dilakukan jika ada input yang diisi
+        if nama or merk or stok or harga or biaya_pemasangan:
+            query = "UPDATE produk SET nama_produk = COALESCE(%s, nama_produk), merk = COALESCE(%s, merk), stok = COALESCE(%s, stok), harga_produk = COALESCE(%s, harga_produk), biaya_pemasangan = COALESCE(%s, biaya_pemasangan) WHERE id_produk = %s"
+            values = (nama, merk, stok, harga, biaya_pemasangan, id_produk)
+            cursor.execute(query, values)
+            db.commit()
+            print("Produk berhasil diperbarui.")
+        else:
+            print("Tidak ada perubahan yang dilakukan.")
+
 
 daftar_produk = LinkedListProduk()
 
-def tambah_produk(nama, merk, stok, harga, biaya_pemasangan):
-    query = "INSERT INTO produk (nama_produk, merk, stok, harga_produk, biaya_pemasangan) VALUES (%s, %s, %s, %s, %s)"
-    cursor.execute(query, (nama, merk, stok, harga, biaya_pemasangan))
-    db.commit()
+# Login
 
-    id_baru = cursor.lastrowid
-    daftar_produk.tambah({
-        "id_produk": id_baru,
-        "nama_produk": nama,
-        "merk": merk,
-        "stok": stok,
-        "harga_produk": harga,
-        "biaya_pemasangan": biaya_pemasangan
-    })
-    print("Produk berhasil ditambahkan.")
-    
-#Login
+
 def login():
+    global user_info
     print(f"{'-'*40:^40}")
     print(f"{'MENU LOGIN':^40}")
     print(f"{'-'*40:^40}")
@@ -229,11 +407,12 @@ def login():
         username = input("Username: ")
         password = pwinput.pwinput("Password: ")
         if username and password:
-            query = "SELECT * FROM pembeli WHERE username = %s AND password = %s"
+            query = "SELECT * FROM pembeli WHERE BINARY username = %s AND password = %s"
             cursor.execute(query, (username, password))
             pembeli = cursor.fetchone()
             if pembeli:
                 print("Login berhasil sebagai pembeli.")
+                user_info = {"role": "pembeli", "id": pembeli[0]}
                 menu_pembeli()
                 break
             else:
@@ -242,6 +421,7 @@ def login():
                 karyawan = cursor.fetchone()
                 if karyawan:
                     print("Login berhasil sebagai karyawan.")
+                    user_info = {"role": "karyawan", "id": karyawan[0]}
                     menu_karyawan()
                     break
                 else:
@@ -249,7 +429,9 @@ def login():
         else:
             print("Username dan password harus diisi.")
 
-#Register   
+# Register
+
+
 def register():
     while True:
         try:
@@ -267,7 +449,8 @@ def register():
                     break
                 else:
                     print("Masukan tidak valid, Silahkan pilih antara L atau P")
-            tanggal_lahir = input("Masukkan tanggal lahir (format: YYYY-MM-DD): ")
+            tanggal_lahir = input(
+                "Masukkan tanggal lahir (format: YYYY-MM-DD): ")
             tgl = datetime.strptime(tanggal_lahir, "%Y-%m-%d")
             kota = input("Masukkan kota: ")
             alamat = input("Masukkan alamat rumah: ")
@@ -278,7 +461,8 @@ def register():
                     print("Username sudah digunakan. Silakan pilih username lain.\n")
                     continue
                 query = "INSERT INTO pembeli (id_pembeli, nama_lengkap, jenis_kelamin, tanggal_lahir, kota, alamat, username, password) VALUES ('', %s, %s, %s, %s, %s, %s, %s)"
-                cursor.execute(query, (nama, jenis_kelamin, tgl, kota, alamat, username, password))
+                cursor.execute(query, (nama, jenis_kelamin, tgl,
+                               kota, alamat, username, password))
                 db.commit()
                 print("Berhasil Register!")
                 menu_pembeli()
@@ -287,28 +471,35 @@ def register():
         except:
             print("Invalid Data")
 
-#Menu Utama
+# Menu Utama
+
+
 def main_menu():
-    while True:
-        print(f"{'-'*40:^40}")
-        print(f"{'Selamat Datang di Reenergy Store !':^40}")
-        print(f"{'-'*40:^40}")
-        print("Menu:")
-        print("1. Login")
-        print("2. Register")
-        print("3. Keluar")
-        pilih = input("Masukkan Pilihan Anda: ")
-        if pilih in ['1', '2', '3']:
-            if  pilih == '1':
-                login()
-            elif pilih == '2':
-                register()
-            elif pilih == '3':
-                exit()
-        else:
-            print("Input salah, silahkan pilih antara 1, 2 dan 3.")
-            
-#Menu Karyawan
+    try:
+        while True:
+            print(f"{'-'*40:^40}")
+            print(f"{'Selamat Datang di Reenergy Store !':^40}")
+            print(f"{'-'*40:^40}")
+            print("Menu:")
+            print("1. Login")
+            print("2. Register")
+            print("3. Keluar")
+            pilih = input("Masukkan Pilihan Anda: ")
+            if pilih in ['1', '2', '3']:
+                if pilih == '1':
+                    login()
+                elif pilih == '2':
+                    register()
+                elif pilih == '3':
+                    exit()
+            else:
+                print("Input salah, silahkan pilih antara 1, 2 dan 3.")
+    except KeyboardInterrupt:
+        print("\nTerima kasih telah menggunakan program ini. Sampai jumpa!")
+
+# Menu Karyawan
+
+
 def menu_karyawan():
     while True:
         print(f"\n{'='*100}")
@@ -325,51 +516,20 @@ def menu_karyawan():
             pilihan = int(input("Masukkan pilihan (1-5): "))
 
             if pilihan == 1:
-                nama = input("Masukkan nama produk: ")
-                merk = input("Masukkan merk produk: ")
-                stok = int(input("Masukkan stok produk: "))
-                harga = float(input("Masukkan harga produk: "))
-                biaya_pemasangan = float(input("Masukkan biaya pemasangan: "))
-                tambah_produk(nama, merk, stok, harga, biaya_pemasangan)
+                LinkedListProduk.tambah_produk()
 
             elif pilihan == 2:
                 display_produk()
 
             elif pilihan == 3:
-                id_produk = int(input("Masukkan ID produk yang ingin diperbarui: "))
-                nama = input("Nama baru (biarkan kosong jika tidak ingin mengubah): ")
-                merk = input("Merk baru (biarkan kosong jika tidak ingin mengubah): ")
-                stok = input("Stok baru (biarkan kosong jika tidak ingin mengubah): ")
-                harga = input("Harga baru (biarkan kosong jika tidak ingin mengubah): ")
-                biaya_pemasangan = input("Biaya pemasangan baru (biarkan kosong jika tidak ingin mengubah): ")
-
-                # Konversi nilai ke float jika diperlukan
-                if harga != "":
-                    harga = float(harga)
-                if biaya_pemasangan != "":
-                    biaya_pemasangan = float(biaya_pemasangan)
-
-                # Memperbarui produk
-                produk_diperbarui = daftar_produk.update(id_produk, nama, merk, stok, harga, biaya_pemasangan)
-
-                if produk_diperbarui:
-                    # Membuat query SQL untuk memperbarui produk di database
-                    query = "UPDATE produk (nama_barang, merk, stok, harga_produk, biaya_pemasangan) VALUES (%s, %s, %s, %s, %s) WHERE id_produk = %s"
-                    cursor.execute(query, nama, merk, stok, harga, biaya_pemasangan, id_produk)
-                    db.commit()
-                    print("Produk berhasil diperbarui.")
-                else:
-                    print("Produk tidak ditemukan.")
-
+                id_produk = int(
+                    input("Masukkan ID produk yang ingin diperbarui: "))
+                LinkedListProduk.update(id_produk)
 
             elif pilihan == 4:
-                id_produk = int(input("Masukkan ID produk yang ingin dihapus: "))
-                daftar_produk.hapus_by_id(id_produk)
-                query = "DELETE FROM produk WHERE id_produk = %s"
-                cursor.execute(query, (id_produk,))
-                db.commit()
-                print("Produk berhasil dihapus.")
-
+                id_produk = int(
+                    input("Masukkan ID produk yang ingin dihapus: "))
+                LinkedListProduk.hapus_produk(id_produk)
             elif pilihan == 5:
                 print("Keluar dari Menu Kelola Produk.")
                 break
@@ -380,8 +540,11 @@ def menu_karyawan():
         except ValueError:
             print("Input tidak valid. Masukkan angka.")
 
-#Menu pembeli            
+# Menu pembeli
+
+
 def menu_pembeli():
+    pembeli = Pembeli(cursor, db)  # Buat objek Pembeli di dalam menu_pembeli
     print(f"{'-'*40:^40}")
     print(f"{'MENU PEMBELI':^40}")
     print(f"{'-'*40:^40}")
@@ -397,15 +560,16 @@ def menu_pembeli():
             pilihan = int(input("Pilih opsi: "))
 
             if pilihan == 1:
-                None
+                pembeli.beli()
+                pembeli.tampilkan_invoice()
             elif pilihan == 2:
                 display_produk()
             elif pilihan == 3:
-                Pembeli.sort_murah()
+                pembeli.sort_murah(cursor)
             elif pilihan == 4:
-                Pembeli.sort_mahal()
+                pembeli.sort_mahal(cursor)
             elif pilihan == 5:
-                Pembeli.search()
+                pembeli.search(cursor)
             elif pilihan == 6:
                 break
             else:
@@ -413,5 +577,6 @@ def menu_pembeli():
 
         except ValueError:
             print("Input tidak valid. Harap masukkan angka.")
+
 
 main_menu()
