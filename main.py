@@ -31,15 +31,14 @@ def display_produk():
             return
 
         table = PrettyTable()
-        table.field_names = ["ID Produk", "Nama Produk",
-                             "Merk", "Stok", "Harga Produk", "Biaya Pemasangan"]
+        table.field_names = ["ID Produk", "Nama Produk", "Merk", "Stok", "Harga Produk", "Biaya Pemasangan"]
 
         for row in results:
             if row[3] == 0:
                 row = list(row)
                 row[3] = "Stok Habis"
-            table.add_row(row)
-
+            table.add_row(row) 
+            
         print(table)
     except mysql.connector.Error as err:
         print("Error:", err)
@@ -205,8 +204,8 @@ class Pembeli:
             search = input(
                 "Masukkan nama produk atau merk yang ingin dicari: ")
             try:
-                query = "SELECT * FROM produk WHERE nama_produk OR merk LIKE %s"
-                cursor.execute(query, (f"%{search}%",))
+                query = "SELECT * FROM produk WHERE nama_produk LIKE %s OR merk LIKE %s"
+                cursor.execute(query, (f"%{search}%", f"%{search}%"))
                 results = cursor.fetchall()
                 if search.strip():
                     if cursor.rowcount != 0:
