@@ -91,9 +91,9 @@ class Pembeli:
 
     def tampilkan_invoice(self):
         if self.invoice:
-            print(f"{'-'*40:^40}")
-            print(f"{'INVOICE PEMBELIAN':^40}")
-            print(f"{'-'*40:^40}")
+            print(f"{'-'*110:^110}")
+            print(f"{'STRUK PEMBELIAN':^110}")
+            print(f"{'-'*110:^110}")
             table = PrettyTable()
             table.field_names = ["ID Produk", "Nama Produk", "Merk",
                                  "Jumlah", "Harga Satuan", "Biaya Pemasangan", "Total Harga"]
