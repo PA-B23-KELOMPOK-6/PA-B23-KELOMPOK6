@@ -16,7 +16,7 @@
 
     -Dengan melibatkan tenaga kerja lokal dalam pemasangan dan pemeliharaan, perusahaan ini membantu meningkatkan keterampilan dan membuka peluang kerja bagi penduduk setempat.
 
-    -Akses listrik yang lebih baik dapat mendorong pertumbuhan ekonomi di daerah terpencil, memberikan peluang bagi usaha kecil dan meningkatkan produktivitas komunitas.
+    -Dengan adanya akses listrik yang baik hal itu akan membatu perkembangan ekonomi di daerah tersebut dan dapat memberikan peluang bagi usaha kecil untuk meningkatkan produktivitas komunitas.
 
 # Penjelasan struktur project
 
@@ -93,8 +93,6 @@ class LinkedListProduk:
 
 program:
 # display.py
-from prettytable import PrettyTable
-
 def display_produk(cursor):
     try:
         query = "SELECT * FROM produk"
@@ -125,9 +123,13 @@ def display_produk(cursor):
 Program:
 # main.py
 import db_connection
+
 import display
+
 import data_structures
+
 import pwinput
+
 from datetime import datetime
 
 db = db_connection.create_connection()
@@ -172,10 +174,14 @@ main_menu()  # Memulai program
 
 
   Program:
+
   models/
 ├── admin.py
+
 ├── perkotaan.py
+
 ├── pemukiman.py
+
 ├── proyek.py
 
 ## Penjelasan:
@@ -184,7 +190,9 @@ main_menu()  # Memulai program
 
 Program:
 admin/
+
 ├── admin.py
+
 ├── admin_utils.py
 
 
