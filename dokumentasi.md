@@ -1,4 +1,4 @@
-![image](https://github.com/PA-B23-KELOMPOK-6/PA-B23-KELOMPOK6/assets/144969459/023ed90c-e9f2-4c41-85cf-3a51859430fb)# Cara Penggunaan
+# Cara Penggunaan
 Ada 3 Menu yaitu Menu Utama, Menu Karyawan dan Menu Pembeli
 
 ## A. Menu Utama Program
