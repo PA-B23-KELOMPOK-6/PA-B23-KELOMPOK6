@@ -16,8 +16,6 @@ Di menu utama,  terdapat 3 opsi yang dapat dipilih _user_ yaitu :
 
   _User_ dipersilahkan login jika _user_ sudah terdaftar. Silahkan _Login_ menggunakan Username dan password yang sudah terdaftar.
   
-
-  
 <p align="center">
   <img src ="https://github.com/PA-B23-KELOMPOK-6/PA-B23-KELOMPOK6/assets/144969459/11acecf8-7eaf-427e-8f2c-c6f0baac0a16" width="400" height="200">
 </p>
