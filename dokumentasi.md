@@ -2,9 +2,9 @@
 Ada 3 Menu yaitu Menu Utama, Menu Karyawan dan Menu Pembeli
 
 ## A. Menu Utama Program
-<p align="center">
-  <![image](https://github.com/PA-B23-KELOMPOK-6/PA-B23-KELOMPOK6/assets/144969459/b439d5a9-d13a-4d2c-97d7-80c13da1e7e1) />
-</p>
+<div style="text-align: center;">
+  <img width="100%"(https://github.com/PA-B23-KELOMPOK-6/PA-B23-KELOMPOK6/assets/144969459/b439d5a9-d13a-4d2c-97d7-80c13da1e7e1)/>
+</div>
 
 Di menu utama,  terdapat 3 opsi yang dapat dipilih _user_ yaitu :
 - Login
