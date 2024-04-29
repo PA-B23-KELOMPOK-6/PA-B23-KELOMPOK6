@@ -35,6 +35,13 @@ Di menu utama,  terdapat 3 opsi yang dapat dipilih _user_ yaitu :
 
   disini pembeli akan memilih angka 2 untuk melihat produk yang tersedia di renergy_store serta jika ingin membelinya _User_ dapat memilih angka 1.
 
+<p align="center">
+  <img src ="https://github.com/PA-B23-KELOMPOK-6/PA-B23-KELOMPOK6/assets/144969459/a63e78f3-d69a-4122-b944-dfde8f131502" width="400" height="200">
+</p>
+
+  pembeli memasukkan id_produk serta jumlah yang ingin dibeli, jika dirasa sudah cukup melakukan pembelian maka bisa memilih angka 0 namun jika ingin membeli barang lagi maka langsung saja memilih id_produk yang ingin dibeli. 
+
+
 
   
 - Register
