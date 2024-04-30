@@ -19,33 +19,19 @@
 
     -Dengan adanya akses listrik yang baik hal itu akan membatu perkembangan ekonomi di daerah tersebut dan dapat memberikan peluang bagi usaha kecil untuk meningkatkan produktivitas komunitas.
 
-# Penjelasan struktur project
+# Flowchart
+![WhatsApp Image 2024-04-30 at 18 17 15](https://github.com/PA-B23-KELOMPOK-6/PA-B23-KELOMPOK6/assets/109202315/8b940ef7-1081-4ac6-a74a-71616f0cf83b)
 
-Program:
-# db_connection.py
-import mysql.connector
-from mysql.connector import Error
+![WhatsApp Image 2024-04-30 at 18 17 15 (1)](https://github.com/PA-B23-KELOMPOK-6/PA-B23-KELOMPOK6/assets/109202315/e807db88-b020-4fdd-abf0-02e8cc4a9b14)
 
-def create_connection():
-    try:
-        db = mysql.connector.connect(
-            host="sql6.freesqldatabase.com",
-            user="sql6702194",
-            password="t6ayvq7vPm",
-            database="sql6702194"
-        )
-        if db.is_connected():
-            return db
-    except Error as e:
-        print("Error connecting to MySQL", e)
-    return None
+![WhatsApp Image 2024-04-30 at 18 17 16](https://github.com/PA-B23-KELOMPOK-6/PA-B23-KELOMPOK6/assets/109202315/15fbf6a6-0645-4e73-bf74-44440650fa53)
 
-## Penjelasan
-  -Jadi program diatas sebagai Database Connection ini bertanggung jawab untuk menghubungkan ke database MySQL. Modul ini dapat dinamakan db_connection.py dan berisi kode untuk koneksi serta penanganan kesalahan.
+![WhatsApp Image 2024-04-30 at 18 17 16 (1)](https://github.com/PA-B23-KELOMPOK-6/PA-B23-KELOMPOK6/assets/109202315/7619d1e9-a231-4298-a927-2b8d8e2bbd11)
+
 
 
 program:
-# data_structures.py
+# Class Karyawan
 class NodeProduk:
     def __init__(self, produk):
         self.produk = produk
