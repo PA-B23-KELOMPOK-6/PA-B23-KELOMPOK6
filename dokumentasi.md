@@ -1,23 +1,23 @@
-### Dokumentasi
+# Dokumentasi
 
-### Deskripsi Program
-# Tujuan Program
+## Deskripsi Program
+## Tujuan Program
 
-  -Dapat Menyediakan Penjualanan yang dapat diakses dengan mudah dan dapat dijangkau di desa maupun di kota.
+- Dapat Menyediakan Penjualanan yang dapat diakses dengan mudah dan dapat dijangkau di desa maupun di kota.
 
-  -Reenergy Store berusaha untuk mengatasi tantangan logistik dan aksesibilitas yang menjadi hambatan utama dalam pengiriman dan pemasangan peralatan energi terbarukan di daerah terpencil.
+- Reenergy Store berusaha untuk mengatasi tantangan logistik dan aksesibilitas yang menjadi hambatan utama dalam pengiriman dan pemasangan peralatan energi terbarukan di daerah terpencil.
 
-  -Melalui langkah-langkah yang diambil di Kutai Barat, Reenergy Store juga memiliki tujuan untuk memberikan inspirasi dan mendorong pengembangan energi terbarukan di daerah terpencil lainnya
+- Melalui langkah-langkah yang diambil di Kutai Barat, Reenergy Store juga memiliki tujuan untuk memberikan inspirasi dan mendorong pengembangan energi terbarukan di daerah terpencil lainnya
 
-  # Manfaat
+## Manfaat
 
-    -Penduduk di daerah terpencil kini memiliki akses ke listrik yang lebih stabil dan berkelanjutan, yang mendukung aktivitas sehari-hari dan meningkatkan kualitas hidup.
+- Penduduk di daerah terpencil kini memiliki akses ke listrik yang lebih stabil dan berkelanjutan, yang mendukung aktivitas sehari-hari dan meningkatkan kualitas hidup.
 
-    -Dengan mengandalkan sumber daya alam energi terbarukan seperti matahari, Reenergy Store membantu mengurangi dampak lingkungan dan jejak karbon.
+- Dengan mengandalkan sumber daya alam energi terbarukan seperti matahari, Reenergy Store membantu mengurangi dampak lingkungan dan jejak karbon.
 
-    -Dengan melibatkan tenaga kerja lokal dalam pemasangan dan pemeliharaan, perusahaan ini membantu meningkatkan keterampilan dan membuka peluang kerja bagi penduduk setempat.
+- Dengan melibatkan tenaga kerja lokal dalam pemasangan dan pemeliharaan, perusahaan ini membantu meningkatkan keterampilan dan membuka peluang kerja bagi penduduk setempat.
 
-    -Dengan adanya akses listrik yang baik hal itu akan membatu perkembangan ekonomi di daerah tersebut dan dapat memberikan peluang bagi usaha kecil untuk meningkatkan produktivitas komunitas.
+- Dengan adanya akses listrik yang baik hal itu akan membatu perkembangan ekonomi di daerah tersebut dan dapat memberikan peluang bagi usaha kecil untuk meningkatkan produktivitas komunitas.
 
 # Flowchart
 ![WhatsApp Image 2024-04-30 at 18 17 15](https://github.com/PA-B23-KELOMPOK-6/PA-B23-KELOMPOK6/assets/109202315/8b940ef7-1081-4ac6-a74a-71616f0cf83b)
