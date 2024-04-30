@@ -29,18 +29,15 @@
 ![WhatsApp Image 2024-04-30 at 18 17 16 (1)](https://github.com/PA-B23-KELOMPOK-6/PA-B23-KELOMPOK6/assets/109202315/7619d1e9-a231-4298-a927-2b8d8e2bbd11)
 
 
-
-program:
 # Class Karyawan
-class NodeProduk:
+    class NodeProduk:
     def __init__(self, produk):
         self.produk = produk
         self.next = None
-
-
-class LinkedListProduk:
-    def __init__(self):
-        self.head = None
+        
+    class LinkedListProduk:
+        def __init__(self):
+            self.head = None
 
     def tambah(self, produk):
         node_baru = NodeProduk(produk)
@@ -52,30 +49,102 @@ class LinkedListProduk:
                 current = current.next
             current.next = node_baru
 
-    def cari(self, id_produk):
-        current = self.head
-        while current:
-            if current.produk["id_produk"] == id_produk:
-                return current.produk
-            current = current.next
-        return None
+    def tambah_produk():
+        while True:
+            nama = input("Masukkan nama produk: ")
+            merk = input("Masukkan merk produk: ")
+            stok = int(input("Masukkan stok produk: "))
+            harga = float(input("Masukkan harga produk: "))
+            biaya_pemasangan = float(input("Masukkan biaya pemasangan: "))
+            if nama.strip() and merk.strip():
+                query = "INSERT INTO produk (nama_produk, merk, stok, harga_produk, biaya_pemasangan) VALUES (%s, %s, %s, %s, %s)"
+                cursor.execute(
+                    query, (nama, merk, stok, harga, biaya_pemasangan))
+                db.commit()
+                break
+            else:
+                print("Nama dan Merk Tidak Boleh Kosong!")
 
-    def hapus(self, id_produk):
-        current = self.head
-        prev = None
-        while current:
-            if current.produk["id_produk"] == id_produk:
-                if prev:
-                    prev.next = current.next
-                else:
-                    self.head = current.next
-                return True
-            prev = current
-            current = current.next
-        return False
+        id_baru = cursor.lastrowid
+        daftar_produk.tambah({
+            "id_produk": id_baru,
+            "nama_produk": nama,
+            "merk": merk,
+            "stok": stok,
+            "harga_produk": harga,
+            "biaya_pemasangan": biaya_pemasangan
+        })
+        print("Produk berhasil ditambahkan.")
+
+    def delete_related_transaksi(id_produk):
+        try:
+            query = "DELETE FROM transaksi WHERE id_produk = %s"
+            cursor.execute(query, (id_produk,))
+            db.commit()
+        except mysql.connector.Error as err:
+            db.rollback()
+
+    def hapus_produk(id_produk):
+        try:
+            query = "SELECT * FROM produk WHERE id_produk = %s"
+            cursor.execute(query, (id_produk,))
+            produk = cursor.fetchone()
+
+            if produk:
+                LinkedListProduk.delete_related_transaksi(id_produk)
+                query = "DELETE FROM produk WHERE id_produk = %s"
+                cursor.execute(query, (id_produk,))
+                db.commit()
+                print("Produk berhasil dihapus.")
+            else:
+                print(f"Produk dengan ID {id_produk} tidak ditemukan.")
+
+        except ValueError:
+            print("ID produk harus berupa bilangan bulat.")
+
+        except mysql.connector.Error as err:
+            db.rollback()
+            print("Error saat menghapus produk:", err)
+
+    def update(id_produk):
+        nama = input("Masukkan nama produk baru (opsional): ")
+        merk = input("Masukkan merk baru (opsional): ")
+        stok = input("Masukkan jumlah stok baru (opsional): ")
+        harga = input("Masukkan harga baru (opsional): ")
+        biaya_pemasangan = input("Biaya pemasangan baru (opsional): ")
+
+        if nama.strip() == "":
+            nama = None
+        if merk.strip() == "":
+            merk = None
+        if stok.strip() == "":
+            stok = None
+        else:
+            stok = int(stok)
+        if harga.strip() == "":
+            harga = None
+        else:
+            harga = float(harga)
+        if biaya_pemasangan.strip() == "":
+            biaya_pemasangan = None
+        else:
+            biaya_pemasangan = float(biaya_pemasangan)
+
+        # Update hanya dilakukan jika ada input yang diisi
+        if nama or merk or stok or harga or biaya_pemasangan:
+            query = "UPDATE produk SET nama_produk = COALESCE(%s, nama_produk), merk = COALESCE(%s, merk), stok = COALESCE(%s, stok), harga_produk = COALESCE(%s, harga_produk), biaya_pemasangan = COALESCE(%s, biaya_pemasangan) WHERE id_produk = %s"
+            values = (nama, merk, stok, harga, biaya_pemasangan, id_produk)
+            cursor.execute(query, values)
+            db.commit()
+            print("Produk berhasil diperbarui.")
+        else:
+            print("Tidak ada perubahan yang dilakukan.")
+
+
+daftar_produk = LinkedListProduk()
 
 ## Penjelasan
-  - Program di atas ini adalah Data Structures,ini mencakup definisi struktur data untuk produk dan linked list, serta operasi dasar seperti penambahan, penghapusan, dan pencarian. Modul ini dapat dinamakan data_structures.py.
+  - Program di atas ini adalah class untuk karyawan, ini mencakup fungsi karyawan dan linked list, yaitu sperti menambahkan produk, mengedit produk, lihat produk, dan hapus produk.
 
 
 program:
