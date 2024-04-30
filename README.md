@@ -237,7 +237,7 @@ Direktori ini mengelola operasi-admin, seperti pengelolaan data admin. Bisa juga
 
 -Cursor = Objek yang digunakan untuk mengeksekusi query SQL dan mengambil hasil dari database. Cursor memungkinkan program berinteraksi dengan data yang tersimpan dalam database.
 
-## Lingked list & class:
+## Linked list & class:
 -Kelas Pembeli = Kelas yang menangani operasi terkait pembeli, seperti pembelian produk, menampilkan invoice, dan menyimpan transaksi. Kelas ini mempunyai metode untuk melakukan pembelian, menyimpan transaksi, dan menampilkan invoice.
 
 -LinkedListProduk = Struktur data yang digunakan untuk mengelola produk dalam bentuk linked list. Struktur ini memungkinkan penambahan, penghapusan, dan pembaruan produk dalam daftar.
