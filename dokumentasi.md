@@ -140,22 +140,22 @@
         else:
             print("Tidak ada perubahan yang dilakukan.")
 
-
-daftar_produk = LinkedListProduk()
+    daftar_produk = LinkedListProduk()
 
 ## Penjelasan
-  - Program di atas ini adalah class untuk karyawan, ini mencakup fungsi karyawan dan linked list, yaitu sperti menambahkan produk, mengedit produk, lihat produk, dan hapus produk.
+Program di atas ini adalah class untuk karyawan, ini mencakup fungsi karyawan dan linked list, yaitu sperti menambahkan produk, mengedit produk, lihat produk, dan hapus produk.
 
+# def display_produk
+    def display_produk():
+        print(f"{'-'*40:^40}")
+        print(f"{'DAFTAR PRODUK':^40}")
+        print(f"{'-'*40:^40}")
+        try:
+            query = "SELECT * FROM produk"
+            cursor.execute(query)
+            results = cursor.fetchall()
 
-program:
-# display.py
-def display_produk(cursor):
-    try:
-        query = "SELECT * FROM produk"
-        cursor.execute(query)
-        results = cursor.fetchall()
-
-        if not results:
+        if cursor.rowcount == 0:
             print("Tidak ada produk yang tersedia.")
             return
 
@@ -166,95 +166,32 @@ def display_produk(cursor):
             if row[3] == 0:
                 row = list(row)
                 row[3] = "Stok Habis"
-            table.add_row(row)
-
+            table.add_row(row) 
+            
         print(table)
     except mysql.connector.Error as err:
         print("Error:", err)
 
 ## Penjelasan
-  -Program diatas ini adalah Display, ini berisi fungsi untuk menampilkan data dalam bentuk tabel. Biasanya, modul ini menggunakan PrettyTable untuk menampilkan tabel yang rapi dan mudah dibaca. Modul ini dapat dinamakan display.py.
+Program diatas ini adalah Display, ini berisi fungsi untuk menampilkan data dalam bentuk tabel. Modul ini menggunakan PrettyTable untuk menampilkan tabel yang rapi dan mudah dibaca.
 
+# def check_username
+    def check_username(username):
+        query_pembeli = "SELECT COUNT(*) FROM pembeli WHERE username = %s"
+        cursor.execute(query_pembeli, (username,))
+        result_pembeli = cursor.fetchone()[0]
 
-Program:
-# main.py
-import db_connection
+    query_karyawan = "SELECT COUNT(*) FROM karyawan WHERE username = %s"
+    cursor.execute(query_karyawan, (username,))
+    result_karyawan = cursor.fetchone()[0]
 
-import display
+    if result_pembeli > 0 or result_karyawan > 0:
+        return True
+    else:
+        return False
 
-import data_structures
-
-import pwinput
-
-from datetime import datetime
-
-db = db_connection.create_connection()
-if db:
-    cursor = db.cursor()
-
-    # Logika utama program
-def main_menu():
-    print("Selamat Datang di Reenergy Store!")
-    while True:
-        print("1. Login")
-        print("2. Register")
-        print("3. Keluar")
-        pilihan = input("Pilih opsi: ")
-
-        if pilihan == '1':
-            login()
-        elif pilihan == '2':
-            register()
-        elif pilihan == '3':
-            print("Terima kasih, sampai jumpa!")
-            break
-        else:
-            print("Pilihan tidak valid.")
-
-            # Definisi login dan register
-def login():
-    username = input("Username: ")
-    password = pwinput.pwinput("Password: ")
-    if username and password:
-        # Cek di database pembeli dan karyawan
-        # (Implementasikan logika login)
-
-def register():
-    # Logika registrasi pembeli baru
-    # (Implementasikan logika registrasi)
-
-main_menu()  # Memulai program
-
-## Penjelasan:
-  -Program di atas adalah Main Program, ini berisi logika utama dari program, termasuk antarmuka pengguna, pemrosesan input, dan penggunaan modul-modul sebelumnya. Modul ini dapat dinamakan main.py.
-
-
-  Program:
-
-  models/
-├── admin.py
-
-├── perkotaan.py
-
-├── pemukiman.py
-
-├── proyek.py
-
-## Penjelasan:
-  -Models Directory Direktori ini berisi model-model data yang digunakan dalam program. Sebagai contoh, modul untuk data admin (admin.py), data perkotaan (perkotaan.py), data pemukiman (pemukiman.py), dan data proyek (proyek.py). Setiap file dalam direktori models berisi definisi model data serta operasi yang berkaitan dengan model tersebut.
-
-
-Program:
-admin/
-
-├── admin.py
-
-├── admin_utils.py
-
-
-## Penjelasan:
--Admin Directory
-Direktori ini mengelola operasi-admin, seperti pengelolaan data admin. Bisa juga menyertakan utilitas yang dapat digunakan dalam modul admin. File admin.py berisi fungsi-fungsi yang terkait dengan admin, sedangkan admin_utils.py berisi utilitas untuk membantu operasi admin.
+## Penjelasan
+Program di atas berfungsi untuk mengecek apakah yang username saat register sudah ada pada database atau belum
 
 ## Fitur
 
