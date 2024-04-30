@@ -29,7 +29,7 @@
 ![WhatsApp Image 2024-04-30 at 18 17 16 (1)](https://github.com/PA-B23-KELOMPOK-6/PA-B23-KELOMPOK6/assets/109202315/7619d1e9-a231-4298-a927-2b8d8e2bbd11)
 
 
-# Class Karyawan
+# class Karyawan
     class NodeProduk:
     def __init__(self, produk):
         self.produk = produk
@@ -143,7 +143,7 @@
     daftar_produk = LinkedListProduk()
 
 ## Penjelasan
-Program di atas ini adalah class untuk karyawan, ini mencakup fungsi karyawan dan linked list, yaitu sperti menambahkan produk, mengedit produk, lihat produk, dan hapus produk.
+Class Karyawan berfungsi untuk mencakup fungsi karyawan dan linked list, yaitu sperti menambahkan produk, mengedit produk, lihat produk, dan hapus produk.
 
 # def display_produk
     def display_produk():
@@ -191,49 +191,420 @@ Program diatas ini adalah Display, ini berisi fungsi untuk menampilkan data dala
         return False
 
 ## Penjelasan
-Program di atas berfungsi untuk mengecek apakah yang username saat register sudah ada pada database atau belum
+Program di atas berfungsi untuk mengecek apakah yang username saat register sudah ada pada database atau belum.
 
-## Fitur
+# class Pembeli
 
-## Login & Registrasi:
--Login = User dapat login dengan memasukkan username dan password. Jika login berhasil, user akan diarahkan ke menu sesuai dengan perannya, baik sebagai pembeli maupun karyawan.
+    class Pembeli:
+        def __init__(self, cursor, db):
+            self.cursor = cursor
+            self.db = db
+            self.invoice = []
 
--Registrasi = User yang belum memiliki akun dapat membuat akun baru dengan mengisi informasi pribadi, seperti nama lengkap, jenis kelamin, tanggal lahir, kota, alamat, username, dan password.
+    def simpan_transaksi(self):
+        try:
+            for item in self.invoice:
+                query = "UPDATE produk SET stok = stok - %s WHERE id_produk = %s"
+                self.cursor.execute(query, (item["jumlah"], item["id_produk"]))
+                self.db.commit()
+                # Ambil ID karyawan dari informasi login
+                id_karyawan = user_info["id"]
+                # Ambil ID pembeli dari informasi login
+                id_pembeli = user_info["id"]
+                id_produk = item["id_produk"]
 
--Keluar = Jika user memilih opsi keluar, program akan berhenti dan keluar.
+                # Tambahkan ke histori pembelian
+                query = "INSERT INTO transaksi (id_transaksi, waktu_transaksi, id_karyawan, id_produk, id_pembeli) VALUES ('', %s, %s, %s, %s)"
+                values = (datetime.now(), id_karyawan, id_produk, id_pembeli)
+                self.cursor.execute(query, values)
+                self.db.commit()
 
-## Manajemen Produk:
--Lihat Semua Produk = Menampilkan daftar produk yang tersedia dalam bentuk tabel. Setiap produk memiliki detail seperti ID produk, nama, merk, stok, harga, dan biaya pemasangan. Stok yang habis ditandai dengan teks "Stok Habis".
+            print("Pembelian berhasil. Terima kasih atas pembelian Anda!")
+        except mysql.connector.Error as err:
+            print("Error saat memproses transaksi:", err)
 
--Tambah Produk = Karyawan atau admin dapat menambahkan produk baru dengan memasukkan detail seperti nama produk, merk, stok, harga, dan biaya pemasangan.
+    def tampilkan_invoice(self):
+        if self.invoice:
+            print(f"{'-'*40:^40}")
+            print(f"{'INVOICE PEMBELIAN':^40}")
+            print(f"{'-'*40:^40}")
+            table = PrettyTable()
+            table.field_names = ["ID Produk", "Nama Produk", "Merk",
+                                 "Jumlah", "Harga Satuan", "Biaya Pemasangan", "Total Harga"]
 
--Perbarui Produk = Karyawan atau admin dapat memperbarui informasi produk yang sudah ada, seperti nama produk, merk, stok, harga, atau biaya pemasangan.
+            for item in self.invoice:
+                total_harga = item["jumlah"] * \
+                    (item["harga_satuan"] + item["biaya_pemasangan"])
+                table.add_row([
+                    item["id_produk"],
+                    item["nama_produk"],
+                    item["merk"],
+                    item["jumlah"],
+                    item["harga_satuan"],
+                    item["biaya_pemasangan"],
+                    total_harga
+                ])
 
--Hapus Produk = Karyawan atau admin dapat menghapus produk dari database dengan memasukkan ID produk yang ingin dihapus.
+            print(table)
+        else:
+            print("Tidak ada item dalam invoice saat ini.")
 
-## Transaksi & Pembelian:
--Beli Produk = Fitur ini memungkinkan pembeli untuk membeli produk dari toko dengan memasukkan ID produk dan jumlah yang ingin dibeli. Jika stok mencukupi, pembeli dapat melanjutkan transaksi.
+    def beli(self):
+        self.invoice = []
+        total_pembelian = 0
+        while True:
+            try:
+                product_id = int(
+                    input("Masukkan ID Produk yang ingin dibeli (atau 0 untuk keluar): "))
+                if product_id == 0:
+                    break
 
--Tampilkan Invoice = Setelah pembelian berhasil, pembeli dapat melihat invoice yang menampilkan detail pembelian, termasuk produk yang dibeli, jumlah, harga, biaya pemasangan, dan total harga.
+                query = "SELECT * FROM produk WHERE id_produk = %s"
+                self.cursor.execute(query, (product_id,))
+                product = self.cursor.fetchone()
 
--Simpan Transaksi = Setelah pembayaran dikonfirmasi, sistem akan mengurangi stok produk sesuai dengan jumlah yang dibeli dan mencatat transaksi ke dalam database.
+                if not product:
+                    print("Produk dengan ID tersebut tidak ditemukan.")
+                    continue
 
-## Sorting & Pencarian:
--urutkan Produk (Murah - Mahal) = Fitur ini mengurutkan daftar produk berdasarkan harga, dari yang termurah hingga termahal.
+                jumlah = int(
+                    input(f"Masukkan jumlah {product[1]} (merk {product[2]}) yang ingin dibeli: "))
 
--Urutkan Produk (Mahal - Murah) = Fitur ini mengurutkan daftar produk berdasarkan harga, dari yang termahal hingga termurah.
+                if jumlah <= 0:
+                    print("Jumlah produk tidak boleh 0 atau negatif.")
+                    continue
 
--Cari Produk = Pembeli dapat mencari produk berdasarkan nama atau merk. Sistem akan menampilkan produk yang sesuai dengan kata kunci pencarian.
+                if jumlah > product[3]:
+                    print("Stok tidak mencukupi.")
+                    continue
 
-## Koneksi Database:
--Database Configuration = Menyediakan konfigurasi untuk menghubungkan ke database MySQL. Konfigurasi ini mencakup parameter seperti host, user, password, dan nama database.
+                for item in self.invoice:
+                    if item["id_produk"] == product_id:
+                        item["jumlah"] += jumlah
+                        break
+                else:
+                    self.invoice.append({
+                        "id_produk": product[0],
+                        "nama_produk": product[1],
+                        "merk": product[2],
+                        "jumlah": jumlah,
+                        "harga_satuan": product[4],
+                        "biaya_pemasangan": product[5],
+                    })
 
--Cursor = Objek yang digunakan untuk mengeksekusi query SQL dan mengambil hasil dari database. Cursor memungkinkan program berinteraksi dengan data yang tersimpan dalam database.
+                total_pembelian += jumlah * (product[4] + product[5])
+            except ValueError:
+                print("Input tidak valid. Masukkan angka yang benar.")
 
-## Lingked list & class:
--Kelas Pembeli = Kelas yang menangani operasi terkait pembeli, seperti pembelian produk, menampilkan invoice, dan menyimpan transaksi. Kelas ini mempunyai metode untuk melakukan pembelian, menyimpan transaksi, dan menampilkan invoice.
+        if self.invoice:
+            self.tampilkan_invoice()
+            while True:
+                try:
+                    print("Total Pembayaran: ", total_pembelian)
+                    uang_bayar = float(
+                        input("Masukkan jumlah uang yang dibayarkan: "))
+                    if uang_bayar < total_pembelian:
+                        print(
+                            "Jumlah uang yang dibayarkan kurang dari total pembelian.")
+                    else:
+                        break
+                except ValueError:
+                    print("Input tidak valid. Masukkan angka yang benar.")
 
--LinkedListProduk = Struktur data yang digunakan untuk mengelola produk dalam bentuk linked list. Struktur ini memungkinkan penambahan, penghapusan, dan pembaruan produk dalam daftar.
+            kembalian = uang_bayar - total_pembelian
+            print(f"Uang yang dibayarkan: {uang_bayar}")
+            print(f"Kembalian: {kembalian}")
 
-## Penanganan eror:
--Error Handling = Fitur ini menangani kesalahan yang mungkin terjadi selama operasi database. Menggunakan kelas mysql.connector.Error untuk menangani kesalahan saat menjalankan query SQL atau saat koneksi database mengalami masalah.
+            konfirmasi = input(
+                "Apakah Anda ingin membayar pembelian ini? (y/n): ").lower()
+            if konfirmasi == 'y':
+                self.simpan_transaksi()
+                print("Total Pembayaran: ", total_pembelian)
+            elif konfirmasi == 'n':
+                self.beli()
+            else:
+                print(
+                    "Pilihan tidak valid. Silakan pilih 'y' untuk membayar atau 'n' untuk membatalkan.")
+                self.beli()
+        else:
+            print("Pembelian dibatalkan.")
+
+    @staticmethod
+    def search(cursor):
+        print(f"{'-'*40:^40}")
+        print(f"{'SEARCH':^40}")
+        print(f"{'-'*40:^40}")
+        while True:
+            search = input(
+                "Masukkan nama produk atau merk yang ingin dicari: ")
+            try:
+                query = "SELECT * FROM produk WHERE nama_produk LIKE %s OR merk LIKE %s"
+                cursor.execute(query, (f"%{search}%", f"%{search}%"))
+                results = cursor.fetchall()
+                if search.strip():
+                    if cursor.rowcount != 0:
+                        table = PrettyTable()
+                        table.field_names = [
+                            "ID Produk", "Nama Produk", "Merk", "Stok", "Harga Produk", "Biaya Pemasangan"]
+
+                        for row in results:
+                            table.add_row(row)
+
+                        print(table)
+                        break
+                    else:
+                        print("Produk tidak ditemukan.")
+                else:
+                    print("Nama produk tidak boleh kosong.")
+            except mysql.connector.Error as err:
+                print("Error:", err)
+
+    @staticmethod
+    def sort_murah(cursor):
+        print(f"{'-'*40:^40}")
+        print(f"{'DAFTAR PRODUK (MURAH - MAHAL)':^40}")
+        print(f"{'-'*40:^40}")
+        try:
+            query = "SELECT * FROM produk ORDER BY `harga_produk` ASC"
+            cursor.execute(query)
+            results = cursor.fetchall()
+
+            if cursor.rowcount == 0:
+                print("Tidak ada produk yang tersedia.")
+                return
+
+            table = PrettyTable()
+            table.field_names = ["ID Produk", "Nama Produk",
+                                 "Merk", "Stok", "Harga Produk", "Biaya Pemasangan"]
+
+            for row in results:
+                table.add_row(row)
+
+            print(table)
+        except mysql.connector.Error as err:
+            print("Error:", err)
+
+    @staticmethod
+    def sort_mahal(cursor):
+        print(f"{'-'*40:^40}")
+        print(f"{'DAFTAR PRODUK (MAHAL - MURAH)':^40}")
+        print(f"{'-'*40:^40}")
+        try:
+            query = "SELECT * FROM produk ORDER BY `harga_produk` DESC"
+            cursor.execute(query)
+            results = cursor.fetchall()
+
+            if cursor.rowcount == 0:
+                print("Tidak ada produk yang tersedia.")
+                return
+
+            table = PrettyTable()
+            table.field_names = ["ID Produk", "Nama Produk",
+                                 "Merk", "Stok", "Harga Produk", "Biaya Pemasangan"]
+
+            for row in results:
+                table.add_row(row)
+
+            print(table)
+        except mysql.connector.Error as err:
+            print("Error:", err)
+
+# Penjelasan
+Class Pembeli berfungsi untuk mencangkup fungsi dari pembeli seperti beli produk, lihat produk, menampilkan invoice, simpan transaksi, search produk, sortir produk dari mahal ke murah, dan sortir produk dari murah ke mahal. 
+
+# def login
+    def login():
+        global user_info
+        print(f"{'-'*40:^40}")
+        print(f"{'MENU LOGIN':^40}")
+        print(f"{'-'*40:^40}")
+        while True:
+            username = input("Username: ")
+            password = pwinput.pwinput("Password: ")
+            if username and password:
+                query = "SELECT * FROM pembeli WHERE BINARY username = %s AND password = %s"
+                cursor.execute(query, (username, password))
+                pembeli = cursor.fetchone()
+                if pembeli:
+                    print("Login berhasil sebagai pembeli.")
+                    user_info = {"role": "pembeli", "id": pembeli[0]}
+                    menu_pembeli()
+                    break
+                else:
+                    query = "SELECT * FROM karyawan WHERE username = %s AND password = %s"
+                    cursor.execute(query, (username, password))
+                    karyawan = cursor.fetchone()
+                    if karyawan:
+                        print("Login berhasil sebagai karyawan.")
+                        user_info = {"role": "karyawan", "id": karyawan[0]}
+                        menu_karyawan()
+                        break
+                    else:
+                        print("Username atau password salah. Silakan coba lagi.")
+            else:
+                print("Username dan password harus diisi.")
+
+## Penjelasn
+User dapat login dengan memasukkan username dan password. Jika login berhasil, user akan diarahkan ke menu sesuai dengan perannya, baik sebagai pembeli maupun karyawan.
+                
+# def register
+    def register():
+        while True:
+            try:
+                print(f"{'-'*40:^40}")
+                print(f"{'MENU REGISTRASI':^40}")
+                print(f"{'-'*40:^40}")
+                nama = input("Masukkan Nama Lengkap: ")
+                while True:
+                    jenis_kelamin = input("Masukkan jenis kelamin (L/P): ")
+                    if jenis_kelamin.upper() == 'L':
+                        jenis_kelamin = 'laki-laki'
+                        break
+                    elif jenis_kelamin.upper() == 'P':
+                        jenis_kelamin = 'perempuan'
+                        break
+                    else:
+                        print("Masukan tidak valid, Silahkan pilih antara L atau P")
+                tanggal_lahir = input(
+                    "Masukkan tanggal lahir (format: YYYY-MM-DD): ")
+                tgl = datetime.strptime(tanggal_lahir, "%Y-%m-%d")
+                kota = input("Masukkan kota: ")
+                alamat = input("Masukkan alamat rumah: ")
+                while True:
+                    username = input("Masukkan username: ")
+                    password = pwinput.pwinput("Masukkan password: ")
+                    if check_username(username):
+                        print("Username sudah digunakan. Silakan pilih username lain.\n")
+                        continue
+                    query = "INSERT INTO pembeli (id_pembeli, nama_lengkap, jenis_kelamin, tanggal_lahir, kota, alamat, username, password) VALUES ('', %s, %s, %s, %s, %s, %s, %s)"
+                    cursor.execute(query, (nama, jenis_kelamin, tgl,
+                                   kota, alamat, username, password))
+                    db.commit()
+                    print("Berhasil Register!")
+                    menu_pembeli()
+                    break
+                break
+            except:
+                print("Invalid Data")
+
+## Penjelasan
+User yang belum memiliki akun dapat membuat akun baru dengan mengisi informasi pribadi, seperti nama lengkap, jenis kelamin, tanggal lahir, kota, alamat, username, dan password.
+
+# def main_menu
+    def main_menu():
+        try:
+            while True:
+                print(f"{'-'*40:^40}")
+                print(f"{'Selamat Datang di Reenergy Store !':^40}")
+                print(f"{'-'*40:^40}")
+                print("Menu:")
+                print("1. Login")
+                print("2. Register")
+                print("3. Keluar")
+                pilih = input("Masukkan Pilihan Anda: ")
+                if pilih in ['1', '2', '3']:
+                    if pilih == '1':
+                        login()
+                    elif pilih == '2':
+                        register()
+                    elif pilih == '3':
+                        exit()
+                else:
+                    print("Input salah, silahkan pilih antara 1, 2 dan 3.")
+        except KeyboardInterrupt:
+            print("\nTerima kasih telah menggunakan program ini. Sampai jumpa!")
+## Penjelasan
+berfungsi untuk menu utama dari program.
+
+# def menu_karyawan
+    def menu_karyawan():
+        while True:
+            print(f"\n{'='*100}")
+            print(f"{'Menu Kelola Produk':^100}")
+            print(f"{'='*100}")
+            print("1. Tambah Produk")
+            print("2. Lihat Semua Produk")
+            print("3. Perbarui Produk")
+            print("4. Hapus Produk")
+            print("5. Keluar")
+            print("="*100)
+
+        try:
+            pilihan = int(input("Masukkan pilihan (1-5): "))
+
+            if pilihan == 1:
+                LinkedListProduk.tambah_produk()
+
+            elif pilihan == 2:
+                display_produk()
+
+            elif pilihan == 3:
+                id_produk = int(
+                    input("Masukkan ID produk yang ingin diperbarui: "))
+                LinkedListProduk.update(id_produk)
+
+            elif pilihan == 4:
+                id_produk = int(
+                    input("Masukkan ID produk yang ingin dihapus: "))
+                LinkedListProduk.hapus_produk(id_produk)
+            elif pilihan == 5:
+                print("Keluar dari Menu Kelola Produk.")
+                break
+
+            else:
+                print("Pilihan tidak valid. Masukkan angka antara 1 dan 5.")
+
+        except ValueError:
+            print("Input tidak valid. Masukkan angka.")
+
+## Penjelasan
+Berfungsi untuk jika user yang login adalah karaywan maka menu yang ditampilkan adalah fungsi di atas.
+
+# def pembeli
+    def menu_pembeli():
+        pembeli = Pembeli(cursor, db)  # Buat objek Pembeli di dalam menu_pembeli
+        print(f"{'-'*40:^40}")
+        print(f"{'MENU PEMBELI':^40}")
+        print(f"{'-'*40:^40}")
+        while True:
+            print("1. Beli Produk")
+            print("2. Lihat Semua Produk")
+            print("3. Urutkan Harga Produk (Murah-Mahal)")
+            print("4. Urutkan Harga Produk (Mahal-Murah)")
+            print("5. Search Nama Produk")
+            print("6. Keluar")
+
+        try:
+            pilihan = int(input("Pilih opsi: "))
+
+            if pilihan == 1:
+                pembeli.beli()
+                pembeli.tampilkan_invoice()
+            elif pilihan == 2:
+                display_produk()
+            elif pilihan == 3:
+                pembeli.sort_murah(cursor)
+            elif pilihan == 4:
+                pembeli.sort_mahal(cursor)
+            elif pilihan == 5:
+                pembeli.search(cursor)
+            elif pilihan == 6:
+                break
+            else:
+                print("Pilihan tidak valid.")
+
+        except ValueError:
+            print("Input tidak valid. Harap masukkan angka.")
+
+## Penjelasan
+Berfungsi untuk jika user yang login adalah pembeli maka menu yang ditampilkan adalah fungsi di atas.
+
+# Koneksi database
+    db = mysql.connector.connect(
+        host="sql6.freesqldatabase.com",
+        user="sql6702194",
+        password="t6ayvq7vPm",
+        database="sql6702194"
+    )
+    
+    cursor = db.cursor()
