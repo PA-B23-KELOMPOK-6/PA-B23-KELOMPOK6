@@ -77,18 +77,74 @@ pembeli juga bisa mencari merek produk jika pembeli lupa nama produk tetapi hany
 </p>
 
 Menu karyawan akan muncul apabila _User_ login menggunakan Username serta password Karyawan.
+
+### 1. Tambah Produk
 <p align="center">
   <img src="https://github.com/PA-B23-KELOMPOK-6/PA-B23-KELOMPOK6/assets/144771979/3213ce29-cbad-42f3-8c03-b1132fb7e699">
 </p>
 
 karyawan bisa menambahkan produk baru dengan menginput data yang berisikan nama_produk, merk, stok, harga_produk, dan biaya_pemasangan.
 
+### 2. Lihat Semua Produk
+<p align="center">
+  <img src="https://github.com/PA-B23-KELOMPOK-6/PA-B23-KELOMPOK6/assets/144771979/6e077d1e-4807-4712-81b7-6e3595155c16" width="670" height="270">
+</p>
+
+Karyawan juga bisa melihat list produk untuk mengelola setiap produk yang ada jika karyawan menambahkan atau memperbarui produk dengan memilih angka 2.
+
+<p align="center">
+  <img src="https://github.com/PA-B23-KELOMPOK-6/PA-B23-KELOMPOK6/assets/144771979/019cc6ec-d06c-4141-b6a9-60314f322f5f">
+</p>
+produk yang baru saja karyawan tambahkan (hasil gambar dari tambah produk).
+
+### 3. Perbarui Produk.
+<p align="center">
+  <img src="https://github.com/PA-B23-KELOMPOK-6/PA-B23-KELOMPOK6/assets/144771979/fd6bb9cf-e989-4797-928a-4fcbbdbcbb02">
+</p>
+
+misal kita ingin memperbarui produk dengan id_produk = 19 dikarenakan stok produk datang lagi.
+
+<p align="center">
+  <img src="https://github.com/PA-B23-KELOMPOK-6/PA-B23-KELOMPOK6/assets/144771979/9e60638b-47e4-414a-9838-a272b5188a97">
+</p>
+
+maka karyawan bisa memilih angka 3 lalu memperbarui produk dengan menginput data yang berisikan nama_produk, merk, stok, harga_produk, dan biaya_pemasangan.
+
+<p align="center">
+  <img src="https://github.com/PA-B23-KELOMPOK-6/PA-B23-KELOMPOK6/assets/144771979/69cfd192-bcbc-4f83-b8bf-a4ea8519545d">
+</p>
+
+lalu karyawan bisa langung mengecek produk yang telah diperbarui nya dengan memilih angka 2 untuk opsi lihat produk.
+
+### 4. Hapus Produk
+<p align="center">
+  <img src="https://github.com/PA-B23-KELOMPOK-6/PA-B23-KELOMPOK6/assets/144771979/8a80ccf5-e1a9-4b34-a77d-8e5cb8df03ec">
+</p>
+
+Karyawan bisa menghapus produk yang ada jika terjadi kesalahan dalam penulisan ataupun produk sudah tidak digunakan atau diperjual belikan lagi. 
+<p align="center">
+  <img src="https://github.com/PA-B23-KELOMPOK-6/PA-B23-KELOMPOK6/assets/144771979/6106f9c3-22b9-479a-85a1-3155b2829a2c">
+</p>
+
+karyawan bisa memilih angka 4 lalu memasukkan id_produk yang ingin dihapus, maka sistem akan memunculkan pesan (Produk berhasil dihapus).
+
+<p align="center">
+  <img src="https://github.com/PA-B23-KELOMPOK-6/PA-B23-KELOMPOK6/assets/144771979/bdc37c4f-e9b2-4007-ac91-48054cca66a7">
+</p>
+
+(Produk berhasil dihapus dari database)
 - Register
 
    <p align="center">
     <img src ="https://github.com/PA-B23-KELOMPOK-6/PA-B23-KELOMPOK6/assets/144969459/9cb94c34-a9d9-4271-b3a8-fde3319dc22d" width="400" height="200">
 </p>
   Calon pembeli dapat membuat akun dengan memasukkan data diri serta Username dan Password sesuai biodata dan keinginan mereka.
+  
+<p align="center">
+  <img src="https://github.com/PA-B23-KELOMPOK-6/PA-B23-KELOMPOK6/assets/144771979/c13b2902-ac03-44be-b954-ceade5f866cc">
+</p>
+
+jika calon _Pembeli_ berhasil registrasi maka Pembeli bisa langsung login menggunakan Username dan Password yang telah ia buat tadi.
  
   
 - Keluar
@@ -97,7 +153,12 @@ karyawan bisa menambahkan produk baru dengan menginput data yang berisikan nama_
   <img src ="https://github.com/PA-B23-KELOMPOK-6/PA-B23-KELOMPOK6/assets/144969459/8b0fb17d-f7f5-4a99-a0cd-6e50b31cad9a" width="400" height="200">
   </p>
   jika memilih menu keluar maka sistem akan otomatis berhenti.
-  
+
+<p align="center">
+  <img src="https://github.com/PA-B23-KELOMPOK-6/PA-B23-KELOMPOK6/assets/144771979/f58580f1-cf3d-444e-bd56-46a2cadab14f">
+</p>
+
+jika memilih opsi keluar pada menu pembeli maka _User_ akan kembali ke Menu utama.
 
 
   
