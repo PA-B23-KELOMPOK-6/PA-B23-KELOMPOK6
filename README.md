@@ -16,3 +16,6 @@
 ![windows](https://github.com/PA-B23-KELOMPOK-6/PA-B23-KELOMPOK6/assets/144969459/2b8d84cf-1ee6-4262-a6df-fd2048b95da0)
 ![php](https://github.com/PA-B23-KELOMPOK-6/PA-B23-KELOMPOK6/assets/144969459/5011f497-fe84-4c8f-a15e-2ba250921706)
 ![python](https://github.com/PA-B23-KELOMPOK-6/PA-B23-KELOMPOK6/assets/144969459/dfd93272-c07f-441c-b934-ca232395fb6f)
+
+## Daftar Isi:
+
