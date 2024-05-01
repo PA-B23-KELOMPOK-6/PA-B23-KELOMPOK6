@@ -30,7 +30,7 @@
      - [Lihat Produk](https://github.com/PA-B23-KELOMPOK-6/PA-B23-KELOMPOK6/blob/main/cara_penggunaan.md#2-lihat-semua-produk-1)
      - [Perbarui Produk](https://github.com/PA-B23-KELOMPOK-6/PA-B23-KELOMPOK6/blob/main/cara_penggunaan.md#3-perbarui-produk)
      - [Hapus Produk](https://github.com/PA-B23-KELOMPOK-6/PA-B23-KELOMPOK6/blob/main/cara_penggunaan.md#4-hapus-produk)
-   -[Menu Registrasi]()
+   - [Menu Registrasi]()
 
      
 
