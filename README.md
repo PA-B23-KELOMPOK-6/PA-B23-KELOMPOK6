@@ -20,6 +20,12 @@
 ## Daftar Isi:
 1. [Cara Penggunaan](https://github.com/PA-B23-KELOMPOK-6/PA-B23-KELOMPOK6/blob/main/cara_penggunaan.md)
    - [Menu Utama Program](https://github.com/PA-B23-KELOMPOK-6/PA-B23-KELOMPOK6/blob/main/cara_penggunaan.md#a-menu-utama-program)
+     - [Beli Produk](https://github.com/PA-B23-KELOMPOK-6/PA-B23-KELOMPOK6/blob/main/cara_penggunaan.md#1-beli-produk)
+     - [Lihat Semua Produk](https://github.com/PA-B23-KELOMPOK-6/PA-B23-KELOMPOK6/blob/main/cara_penggunaan.md#2-lihat-semua-produk)
+     - [Mengurutkan Harga Produk(Murah - Mahal)](https://github.com/PA-B23-KELOMPOK-6/PA-B23-KELOMPOK6/blob/main/cara_penggunaan.md#3-urutkan-harga-produk-murah-mahal)
+     - [Mengurutkan Harga Produk(Mahal - Murah)](https://github.com/PA-B23-KELOMPOK-6/PA-B23-KELOMPOK6/blob/main/cara_penggunaan.md#4-urutkan-harga-produk-mahal-murah)
+     - [Mencari Produk](https://github.com/PA-B23-KELOMPOK-6/PA-B23-KELOMPOK6/blob/main/cara_penggunaan.md#5-search-nama-produk)
+   - []()
 
 2. [Dokumentasi](https://github.com/PA-B23-KELOMPOK-6/PA-B23-KELOMPOK6/blob/main/cara_penggunaan.md)
 
