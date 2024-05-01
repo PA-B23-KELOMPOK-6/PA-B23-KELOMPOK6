@@ -143,6 +143,7 @@
     daftar_produk = LinkedListProduk()
 
 Penjelasan
+
 Class Karyawan berfungsi untuk mencakup fungsi karyawan dan linked list, yaitu sperti menambahkan produk, mengedit produk, lihat produk, dan hapus produk.
 
 # def display_produk
@@ -173,6 +174,7 @@ Class Karyawan berfungsi untuk mencakup fungsi karyawan dan linked list, yaitu s
         print("Error:", err)
 
 Penjelasan
+
 Program diatas ini adalah Display, ini berisi fungsi untuk menampilkan data dalam bentuk tabel. Modul ini menggunakan PrettyTable untuk menampilkan tabel yang rapi dan mudah dibaca.
 
 # def check_username
@@ -191,6 +193,7 @@ Program diatas ini adalah Display, ini berisi fungsi untuk menampilkan data dala
         return False
 
 Penjelasan
+
 Program di atas berfungsi untuk mengecek apakah yang username saat register sudah ada pada database atau belum.
 
 # class Pembeli
@@ -410,6 +413,7 @@ Program di atas berfungsi untuk mengecek apakah yang username saat register suda
             print("Error:", err)
 
 Penjelasan
+
 Class Pembeli berfungsi untuk mencangkup fungsi dari pembeli seperti beli produk, lihat produk, menampilkan invoice, simpan transaksi, search produk, sortir produk dari mahal ke murah, dan sortir produk dari murah ke mahal. 
 
 # def login
@@ -445,6 +449,7 @@ Class Pembeli berfungsi untuk mencangkup fungsi dari pembeli seperti beli produk
                 print("Username dan password harus diisi.")
 
 Penjelasn
+
 User dapat login dengan memasukkan username dan password. Jika login berhasil, user akan diarahkan ke menu sesuai dengan perannya, baik sebagai pembeli maupun karyawan.
                 
 # def register
@@ -488,6 +493,7 @@ User dapat login dengan memasukkan username dan password. Jika login berhasil, u
                 print("Invalid Data")
 
 Penjelasan
+
 User yang belum memiliki akun dapat membuat akun baru dengan mengisi informasi pribadi, seperti nama lengkap, jenis kelamin, tanggal lahir, kota, alamat, username, dan password.
 
 # def main_menu
@@ -514,6 +520,7 @@ User yang belum memiliki akun dapat membuat akun baru dengan mengisi informasi p
         except KeyboardInterrupt:
             print("\nTerima kasih telah menggunakan program ini. Sampai jumpa!")
 Penjelasan
+
 berfungsi untuk menu utama dari program.
 
 # def menu_karyawan
@@ -558,6 +565,7 @@ berfungsi untuk menu utama dari program.
             print("Input tidak valid. Masukkan angka.")
 
 Penjelasan
+
 Berfungsi untuk jika user yang login adalah karaywan maka menu yang ditampilkan adalah fungsi di atas.
 
 # def pembeli
@@ -597,6 +605,7 @@ Berfungsi untuk jika user yang login adalah karaywan maka menu yang ditampilkan 
             print("Input tidak valid. Harap masukkan angka.")
 
 Penjelasan
+
 Berfungsi untuk jika user yang login adalah pembeli maka menu yang ditampilkan adalah fungsi di atas.
 
 # Koneksi database
