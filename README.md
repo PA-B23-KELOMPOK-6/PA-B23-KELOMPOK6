@@ -1,8 +1,8 @@
 # PROJECT AKHIR ASD&DBMS
 
-## Sistem Informasi Perkotaan dan Pemukiman Berkelanjutan (SIP2B)
+## Sistem Informasi Reenergy Store
 
-## KELOMPOK 2 / B / 2024
+## KELOMPOK 6 / B / 2024
 
 - Muhammad Fadhiilah Hisyam 	(2309116066)
 
