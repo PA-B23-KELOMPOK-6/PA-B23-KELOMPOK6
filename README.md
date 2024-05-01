@@ -32,7 +32,20 @@
      - [Hapus Produk](https://github.com/PA-B23-KELOMPOK-6/PA-B23-KELOMPOK6/blob/main/cara_penggunaan.md#4-hapus-produk)
    - [Menu Registrasi](https://github.com/PA-B23-KELOMPOK-6/PA-B23-KELOMPOK6/blob/main/cara_penggunaan.md#menu-registrasi)
 
-
 2. [Dokumentasi](https://github.com/PA-B23-KELOMPOK-6/PA-B23-KELOMPOK6/blob/main/cara_penggunaan.md)
+   - [Deskripis Program](https://github.com/PA-B23-KELOMPOK-6/PA-B23-KELOMPOK6/blob/main/dokumentasi.md#deskripsi-program)
+   - [Tujuan Program](https://github.com/PA-B23-KELOMPOK-6/PA-B23-KELOMPOK6/blob/main/dokumentasi.md#tujuan-program)
+   - [Manfaat](https://github.com/PA-B23-KELOMPOK-6/PA-B23-KELOMPOK6/blob/main/dokumentasi.md#manfaat)
+   - [Flowchart](https://github.com/PA-B23-KELOMPOK-6/PA-B23-KELOMPOK6/blob/main/dokumentasi.md#flowchart)
+   - [Class Karyawan](https://github.com/PA-B23-KELOMPOK-6/PA-B23-KELOMPOK6/blob/main/dokumentasi.md#class-karyawan)
+   - [Def Display Produk](https://github.com/PA-B23-KELOMPOK-6/PA-B23-KELOMPOK6/blob/main/dokumentasi.md#def-display_produk)
+   - [Def Check Username](https://github.com/PA-B23-KELOMPOK-6/PA-B23-KELOMPOK6/blob/main/dokumentasi.md#def-check_username)
+   - [Class Pembeli](https://github.com/PA-B23-KELOMPOK-6/PA-B23-KELOMPOK6/blob/main/dokumentasi.md#class-pembeli)
+   - [Def Login](https://github.com/PA-B23-KELOMPOK-6/PA-B23-KELOMPOK6/blob/main/dokumentasi.md#def-login)
+   - [Def Register](https://github.com/PA-B23-KELOMPOK-6/PA-B23-KELOMPOK6/blob/main/dokumentasi.md#def-register)
+   - [Def Main Menu](https://github.com/PA-B23-KELOMPOK-6/PA-B23-KELOMPOK6/blob/main/dokumentasi.md#def-main_menu)
+   - [Def Menu Karyawan](https://github.com/PA-B23-KELOMPOK-6/PA-B23-KELOMPOK6/blob/main/dokumentasi.md#def-menu_karyawan)
+   - [Def Pembeli](https://github.com/PA-B23-KELOMPOK-6/PA-B23-KELOMPOK6/blob/main/dokumentasi.md#def-pembeli)
+   - [Koneksi Database](https://github.com/PA-B23-KELOMPOK-6/PA-B23-KELOMPOK6/blob/main/dokumentasi.md#koneksi-database)
 
 3. [Program](https://github.com/PA-B23-KELOMPOK-6/PA-B23-KELOMPOK6/blob/main/main.py)
