@@ -18,10 +18,10 @@
 ![python](https://github.com/PA-B23-KELOMPOK-6/PA-B23-KELOMPOK6/assets/144969459/dfd93272-c07f-441c-b934-ca232395fb6f)
 
 ## Daftar Isi:
-![Daftar Isi](https://github.com/PA-B23-KELOMPOK-6/PA-B23-KELOMPOK6/edit/main/README.md)
+[Daftar Isi](https://github.com/PA-B23-KELOMPOK-6/PA-B23-KELOMPOK6/edit/main/README.md)
 
-![Cara Penggunaan](https://github.com/PA-B23-KELOMPOK-6/PA-B23-KELOMPOK6/blob/main/cara_penggunaan.md)
+[Cara Penggunaan](https://github.com/PA-B23-KELOMPOK-6/PA-B23-KELOMPOK6/blob/main/cara_penggunaan.md)
 
-![Dokumentasi](https://github.com/PA-B23-KELOMPOK-6/PA-B23-KELOMPOK6/blob/main/cara_penggunaan.md)
+[Dokumentasi](https://github.com/PA-B23-KELOMPOK-6/PA-B23-KELOMPOK6/blob/main/cara_penggunaan.md)
 
-![Program](https://github.com/PA-B23-KELOMPOK-6/PA-B23-KELOMPOK6/blob/main/main.py)
+[Program](https://github.com/PA-B23-KELOMPOK-6/PA-B23-KELOMPOK6/blob/main/main.py)
