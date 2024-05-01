@@ -133,7 +133,8 @@ karyawan bisa memilih angka 4 lalu memasukkan id_produk yang ingin dihapus, maka
 </p>
 
 (Produk berhasil dihapus dari database)
-- Register
+
+### Register
 
    <p align="center">
     <img src ="https://github.com/PA-B23-KELOMPOK-6/PA-B23-KELOMPOK6/assets/144969459/9cb94c34-a9d9-4271-b3a8-fde3319dc22d" width="400" height="200">
